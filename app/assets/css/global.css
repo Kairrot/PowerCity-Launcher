@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+button {
+    border: 0;
+    background: transparent;
+    font-weight: 800;
+    display: block;
+}
+
+button:focus {
+    outline: 0;
+}
+
+input {
+    border: 0;
+    background: rgba(0,0,0,.5);
+    color: white;
+    display: block;
+}
+
+input::placeholder { color: white; font-family: 'Noto Sans', sans-serif}
+
+input:focus {
+    outline: 0;
+}
+
+* {
+    color: white;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 400;
+}
+
+
+.input-label {
+    position: relative;
+    margin-bottom: 20px;
+}
+.input-label input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+    color: white;
+}
+.input-label .label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.5s;
+}
+.input-label input:focus ~ .label, .input-label input:valid ~ .label {
+    top: -20px;
+    left: 0;
+    font-size: 12px;
+}
+
+.rangeSlider {
+    -webkit-appearance: none;
+    background: #ce1212;
+    width: 40vw;
+    height: 7px;
+    border-radius: 50px;
+    z-index: 10;
+}
+
+.rangeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border-radius: 5px;
+    width: 15px;
+    height: 35px;
+    background: #ff7a00;
+}
