@@ -40,7 +40,6 @@ module.exports = (vue) => {
 
         try {
             rimraf.sync(folder + '/minecraft/mods');
-            rimraf.sync(folder + '/minecraft/config');
             fs.rmSync(folder + '/minecraft/forge.jar');
         } catch (e) {}
 
