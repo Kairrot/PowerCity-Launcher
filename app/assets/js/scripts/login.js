@@ -15,6 +15,7 @@ const loginPasswordError    = document.getElementById('loginPasswordError')
 const loginPassword         = document.getElementById('loginPassword')
 const loginButton           = document.getElementById('loginButton')
 const loginForm             = document.getElementById('loginForm')
+const loginMSButton         = document.getElementById('loginMSButton')
 
 // Control variables.
 let lu = false, lp = false
@@ -278,11 +279,6 @@ loginButton.addEventListener('click', () => {
             })
         }, 1000)
     }).catch((err) => {
-        const msAccount = AuthManager.addMSAccount(loginUsername.value, loginPassword.value)
-        if(msAccount) {
-
-        }
-
         loginLoading(false)
         const errF = resolveError(err)
         setOverlayContent(errF.title, errF.desc, Lang.queryJS('login.tryAgain'))
@@ -292,6 +288,100 @@ loginButton.addEventListener('click', () => {
         })
         toggleOverlay(true)
         loggerLogin.log('Error while logging in.', err)
+    })
+
+})
+
+loginMSButton.addEventListener('click', (event) => {
+    // Show loading stuff.
+    toggleOverlay(true, false, 'msOverlay')
+    loginMSButton.disabled = true
+    ipcRenderer.send('openMSALoginWindow', 'open')
+})
+
+ipcRenderer.on('MSALoginWindowReply', (event, ...args) => {
+    if (args[0] === 'error') {
+        
+        loginMSButton.disabled = false
+        loginLoading(false)
+        switch (args[1]){
+            case 'AlreadyOpenException': {
+                setOverlayContent('ERREUR', 'La fenêtre est déjà ouverte.', 'OK')
+                setOverlayHandler(() => {
+                    toggleOverlay(false)
+                    toggleOverlay(false, false, 'msOverlay')
+                })
+                toggleOverlay(true)
+                return
+            }
+            case 'AuthNotFinished': {
+                setOverlayContent('ERREUR', 'Vous devez finir de vous connecter. La fenêtre se fermera toute seule.', 'OK')
+                setOverlayHandler(() => {
+                    toggleOverlay(false)
+                    toggleOverlay(false, false, 'msOverlay')
+                })
+                toggleOverlay(true)
+                return
+            }
+        }
+        
+    }
+    toggleOverlay(false, false, 'msOverlay')
+    const queryMap = args[0]
+    if (queryMap.has('error')) {
+        let error = queryMap.get('error')
+        let errorDesc = queryMap.get('error_description')
+        if(error === 'access_denied'){
+            error = 'ERRPR'
+            errorDesc = 'To use our launcher, you must agree to the required permissions, otherwise you can\'t use this launcher with Microsoft accounts.<br><br>Despite agreeing to the permissions you don\'t give us the possibility to do anything with your account, because all data will always be sent back to you (the launcher).'
+        }        
+        setOverlayContent(error, errorDesc, 'OK')
+        setOverlayHandler(() => {
+            loginMSButton.disabled = false
+            toggleOverlay(false)
+        })
+        toggleOverlay(true)
+        return
+    }
+
+    // Disable form.
+    formDisabled(true)
+
+    const authCode = queryMap.get('code')
+    AuthManager.addMSAccount(authCode).then(account => {
+        updateSelectedAccount(account)
+        loginButton.innerHTML = loginButton.innerHTML.replace(Lang.queryJS('login.loggingIn'), Lang.queryJS('login.success'))
+        $('.circle-loader').toggleClass('load-complete')
+        $('.checkmark').toggle()
+        setTimeout(() => {
+            switchView(VIEWS.login, loginViewOnSuccess, 500, 500, () => {
+                // Temporary workaround
+                if (loginViewOnSuccess === VIEWS.settings) {
+                    prepareSettings()
+                }
+                loginViewOnSuccess = VIEWS.landing // Reset this for good measure.
+                loginCancelEnabled(false) // Reset this for good measure.
+                loginViewCancelHandler = null // Reset this for good measure.
+                loginUsername.value = ''
+                loginPassword.value = ''
+                $('.circle-loader').toggleClass('load-complete')
+                $('.checkmark').toggle()
+                loginLoading(false)
+                loginButton.innerHTML = loginButton.innerHTML.replace(Lang.queryJS('login.success'), Lang.queryJS('login.login'))
+                formDisabled(false)
+            })
+            toggleOverlay(false)
+        }, 1000)
+    }).catch(error => {
+        loginMSButton.disabled = false
+        loginLoading(false)
+        setOverlayContent('ERROR', error.message ? error.message : 'An error occurred while logging in with Microsoft! For more detailed information please check the log. You can open it with CTRL + SHIFT + I.', Lang.queryJS('login.tryAgain'))
+        setOverlayHandler(() => {
+            formDisabled(false)
+            toggleOverlay(false)
+        })
+        toggleOverlay(true)
+        loggerLogin.error(error)
     })
 
 })

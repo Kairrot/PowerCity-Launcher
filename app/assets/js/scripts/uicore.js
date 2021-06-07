@@ -25,13 +25,6 @@ window.eval = global.eval = function () {
     throw new Error('Sorry, this app does not support window.eval().')
 }
 
-// Display warning when devtools window is opened.
-remote.getCurrentWebContents().on('devtools-opened', () => {
-    console.log('%cThe console is dark and full of terrors.', 'color: white; -webkit-text-stroke: 4px #a02d2a; font-size: 60px; font-weight: bold')
-    console.log('%cIf you\'ve been told to paste something here, you\'re being scammed.', 'font-size: 16px')
-    console.log('%cUnless you know exactly what you\'re doing, close this window.', 'font-size: 16px')
-})
-
 // Disable zoom, needed for darwin.
 webFrame.setZoomLevel(0)
 webFrame.setVisualZoomLevelLimits(1, 1)
@@ -49,7 +42,7 @@ if(!isDev){
                 loggerAutoUpdaterSuccess.log('New update available', info.version)
                 
                 if(process.platform === 'darwin'){
-                    info.darwindownload = `https://github.com/dscalzi/HeliosLauncher/releases/download/v${info.version}/helioslauncher-setup-${info.version}${process.arch === 'arm64' ? '-arm64' : ''}.dmg`
+                    info.darwindownload = `https://github.com/ModRealms-Network/HeliosLauncher/releases/download/v${info.version}/ModRealms-Launcher-setup-${info.version}.dmg`
                     showUpdateUI(info)
                 }
                 
@@ -122,7 +115,7 @@ function showUpdateUI(info){
             toggleOverlay(false)
         })
         toggleOverlay(true, true)*/
-        switchView(getCurrentView(), VIEWS.settings, 500, 500, () => {
+        switchView(getCurrentView(), VIEWS.settings, 250, 250, () => {
             settingsNavItemListener(document.getElementById('settingsNavUpdate'), false)
         })
     }
@@ -141,7 +134,8 @@ document.addEventListener('readystatechange', function () {
         Array.from(document.getElementsByClassName('fCb')).map((val) => {
             val.addEventListener('click', e => {
                 const window = remote.getCurrentWindow()
-                window.close()
+                //window.close()
+                window.destroy()
             })
         })
 

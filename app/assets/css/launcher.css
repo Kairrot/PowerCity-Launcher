@@ -642,6 +642,10 @@ body, button {
     display: initial;
 }
 
+#loginMSButton {
+    margin-bottom: 10px;
+}
+
 
 .circle-loader {
     margin-left: 20px;
