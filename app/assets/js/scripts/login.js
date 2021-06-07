@@ -13,8 +13,6 @@ const loginEmailError       = document.getElementById('loginEmailError')
 const loginUsername         = document.getElementById('loginUsername')
 const loginPasswordError    = document.getElementById('loginPasswordError')
 const loginPassword         = document.getElementById('loginPassword')
-const checkmarkContainer    = document.getElementById('checkmarkContainer')
-const loginRememberOption   = document.getElementById('loginRememberOption')
 const loginButton           = document.getElementById('loginButton')
 const loginForm             = document.getElementById('loginForm')
 
@@ -146,12 +144,6 @@ function formDisabled(v){
     loginCancelButton.disabled = v
     loginUsername.disabled = v
     loginPassword.disabled = v
-    if(v){
-        checkmarkContainer.setAttribute('disabled', v)
-    } else {
-        checkmarkContainer.removeAttribute('disabled')
-    }
-    loginRememberOption.disabled = v
 }
 
 /**
@@ -286,6 +278,11 @@ loginButton.addEventListener('click', () => {
             })
         }, 1000)
     }).catch((err) => {
+        const msAccount = AuthManager.addMSAccount(loginUsername.value, loginPassword.value)
+        if(msAccount) {
+
+        }
+
         loginLoading(false)
         const errF = resolveError(err)
         setOverlayContent(errF.title, errF.desc, Lang.queryJS('login.tryAgain'))

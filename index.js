@@ -10,6 +10,8 @@ const path                          = require('path')
 const semver                        = require('semver')
 const url                           = require('url')
 
+require('electron-reload')(__dirname);
+
 // Setup auto updater.
 function initAutoUpdater(event, data) {
 
@@ -111,7 +113,7 @@ function createWindow() {
         backgroundColor: '#171614'
     })
 
-    ejse.data('bkid', Math.floor((Math.random() * fs.readdirSync(path.join(__dirname, 'app', 'assets', 'images', 'backgrounds')).length)))
+    ejse.data('bkid',(fs.readdirSync(path.join(__dirname, 'app', 'assets', 'images', 'backgrounds')).length) - 1);
 
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'app', 'app.ejs'),
@@ -229,4 +231,11 @@ app.on('activate', () => {
     if (win === null) {
         createWindow()
     }
+})
+
+const XboxLiveAuth = require('@xboxreplay/xboxlive-auth')
+ipcMain.handle('auth', async (event, options) => {
+    try {
+        return await XboxLiveAuth.authenticate(options.username, options.password, { XSTSRelyingParty: 'rp://api.minecraftservices.com/' });
+    } catch (e) { return null; }
 })

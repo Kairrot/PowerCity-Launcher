@@ -305,7 +305,7 @@ settingsNavDone.onclick = () => {
     saveSettingsValues()
     saveModConfiguration()
     ConfigManager.save()
-    saveDropinModConfiguration()
+    //saveDropinModConfiguration()
     saveShaderpackSettings()
     switchView(getCurrentView(), VIEWS.landing)
 }
@@ -449,7 +449,7 @@ function populateAuthAccounts(){
             <div class="settingsAuthAccountRight">
                 <div class="settingsAuthAccountDetails">
                     <div class="settingsAuthAccountDetailPane">
-                        <div class="settingsAuthAccountDetailTitle">Username</div>
+                        <div class="settingsAuthAccountDetailTitle">Pseudo</div>
                         <div class="settingsAuthAccountDetailValue">${acc.displayName}</div>
                     </div>
                     <div class="settingsAuthAccountDetailPane">
@@ -458,9 +458,9 @@ function populateAuthAccounts(){
                     </div>
                 </div>
                 <div class="settingsAuthAccountActions">
-                    <button class="settingsAuthAccountSelect" ${selectedUUID === acc.uuid ? 'selected>Selected Account &#10004;' : '>Select Account'}</button>
+                    <button class="settingsAuthAccountSelect" ${selectedUUID === acc.uuid ? 'selected>Compte séletioné &#10004;' : '>Sélectioner ce compte'}</button>
                     <div class="settingsAuthAccountWrapper">
-                        <button class="settingsAuthAccountLogOut">Log Out</button>
+                        <button class="settingsAuthAccountLogOut">Se déconnecter</button>
                     </div>
                 </div>
             </div>
@@ -775,9 +775,9 @@ document.addEventListener('keydown', (e) => {
 })
 
 function reloadDropinMods(){
-    resolveDropinModsForUI()
+    //resolveDropinModsForUI()
     bindDropinModsRemoveButton()
-    bindDropinModFileSystemButton()
+    //bindDropinModFileSystemButton()
     bindModsToggleSwitch()
 }
 
@@ -892,11 +892,6 @@ function loadSelectedServerOnModsTab(){
     `
 }
 
-// Bind functionality to the server switch button.
-document.getElementById('settingsSwitchServerButton').addEventListener('click', (e) => {
-    e.target.blur()
-    toggleServerSelection(true)
-})
 
 /**
  * Save mod configuration for the current selected server.
@@ -904,7 +899,7 @@ document.getElementById('settingsSwitchServerButton').addEventListener('click', 
 function saveAllModConfigurations(){
     saveModConfiguration()
     ConfigManager.save()
-    saveDropinModConfiguration()
+    //saveDropinModConfiguration()
 }
 
 /**
@@ -923,10 +918,10 @@ function animateModsTabRefresh(){
  */
 function prepareModsTab(first){
     resolveModsForUI()
-    resolveDropinModsForUI()
+    //resolveDropinModsForUI()
     resolveShaderpacksForUI()
     bindDropinModsRemoveButton()
-    bindDropinModFileSystemButton()
+    //bindDropinModFileSystemButton()
     bindShaderpackButton()
     bindModsToggleSwitch()
     loadSelectedServerOnModsTab()

@@ -12,6 +12,7 @@
 const ConfigManager = require('./configmanager')
 const LoggerUtil    = require('./loggerutil')
 const Mojang        = require('./mojang')
+const Microsoft     = require('./microsoft')
 const logger        = LoggerUtil('%c[AuthManager]', 'color: #a02d2a; font-weight: bold')
 const loggerSuccess = LoggerUtil('%c[AuthManager]', 'color: #209b07; font-weight: bold')
 
@@ -41,6 +42,16 @@ exports.addAccount = async function(username, password){
         }
         
     } catch (err){
+        return Promise.reject(err)
+    }
+}
+
+exports.addMSAccount = async function(username, password) {
+    try {
+        const session = await Microsoft.authMicrosoft({username, password});
+
+        console.log(session)
+    } catch (err) {
         return Promise.reject(err)
     }
 }

@@ -67,7 +67,24 @@ function showMainUI(data){
     refreshServerStatus()
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        document.body.style.backgroundImage = `url('assets/images/backgrounds/${document.body.getAttribute('bkid')}.jpg')`
+
+        document.body.style.backgroundImage = `url('assets/images/backgrounds/0.jpg')`
+        setInterval(() => {
+            if(document.body.getAttribute("bgid") === null) {
+                document.body.setAttribute("bgid", 1);
+            }
+
+            const bgid = document.body.getAttribute("bgid");
+            const bkid = document.body.getAttribute("bkid");
+
+            if(bgid !== bkid) {
+                document.body.style.backgroundImage = `url('assets/images/backgrounds/${bgid}.jpg')`
+                document.body.setAttribute("bgid", parseInt(bgid) + 1);
+            } else {
+                document.body.style.backgroundImage = `url('assets/images/backgrounds/${bkid}.jpg')`;
+                document.body.setAttribute("bgid", 0);
+            }
+        }, 5000)
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
@@ -93,15 +110,11 @@ function showMainUI(data){
 
         setTimeout(() => {
             $('#loadingContainer').fadeOut(500, () => {
-                $('#loadSpinnerImage').removeClass('rotating')
+                $('#loadCenterImage').removeClass('rotating')
             })
         }, 250)
         
     }, 750)
-    // Disable tabbing to the news container.
-    initNews().then(() => {
-        $('#newsContainer *').attr('tabindex', '-1')
-    })
 }
 
 function showFatalStartupError(){
@@ -130,7 +143,6 @@ function showFatalStartupError(){
 function onDistroRefresh(data){
     updateSelectedServer(data.getServer(ConfigManager.getSelectedServer()))
     refreshServerStatus()
-    initNews()
     syncModConfigurations(data)
 }
 

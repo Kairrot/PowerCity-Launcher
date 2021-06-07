@@ -1,26 +1,7 @@
-/* Github Code Highlighting. */
-@import "../../../node_modules/github-syntax-dark/lib/github-dark.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
+@import 'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap';
 
-/*******************************************************************************
- *                                                                             *
- * Fonts                                                                       *
- *                                                                             *
- ******************************************************************************/
-
-@font-face {
-    font-family: 'Avenir Book';
-    src: url('../fonts/Avenir-Book.ttf');
-}
-
-@font-face {
-    font-family: 'Avenir Medium';
-    src: url('../fonts/Avenir-Medium.ttf');
-}
-
-@font-face {
-    font-family: 'Ringbearer';
-    src: url('../fonts/Ringbearer.ttf');
-}
+@import './global.css';
 
 /*******************************************************************************
  *                                                                             *
@@ -40,9 +21,13 @@ p {
     -webkit-margin-after: 0em;
 }
 
+button:focus {
+    outline: 0;
+}
+
 /* Set default font and color. */
 body, button {
-    font-family: 'Avenir Book';
+    font-family: 'Noto Sans', sans-serif;
     color: white;
 }
 
@@ -110,7 +95,7 @@ body, button {
 }
 #frameTitleText {
     font-size: 14px;
-    font-family: 'Avenir Medium';
+    
     letter-spacing: 0.5px;
 }
 
@@ -242,7 +227,6 @@ body, button {
     display: flex;
     flex-direction: column;
 }
-
 .cloudTop {
     height: 50%;
     width: 100%;
@@ -250,7 +234,6 @@ body, button {
     animation: clouds1 80s linear infinite;
     background-size: cover;
 }
-
 .cloudBottom {
     height: 50%;
     width: 100%;
@@ -258,7 +241,6 @@ body, button {
     animation: clouds2 70s linear infinite;
     background-size: cover;
 }
-
 @keyframes clouds1 {
     to {
         background-position: 200%;
@@ -283,7 +265,7 @@ body, button {
 }
 
 #welcomeHeader {
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     text-align: center;
     color: white;
     margin-bottom: 25px;
@@ -496,7 +478,7 @@ body, button {
 
 /* Header on login view. */
 #loginSubheader {
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     margin-bottom: 25px;
     font-size: 12px;
     letter-spacing: 1px;
@@ -521,14 +503,15 @@ body, button {
 
 /* Span which displays errors related to login field content. */
 .loginErrorSpan {
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
     font-size: 8px;
     color: #ff1b0c;
     width: 100%;
     text-align: right;
     position: absolute;
-    top: 7px;
+    top: 0px;
+    left: 0;
     opacity: 0;
     transition: 0.25s ease;
 }
@@ -541,15 +524,15 @@ body, button {
     10%, 90% {
         transform: translate3d(-1px, 0, 0);
     }
-    
+
     20%, 80% {
         transform: translate3d(2px, 0, 0);
     }
-  
+
     30%, 50%, 70% {
         transform: translate3d(-4px, 0, 0);
     }
-  
+
     40%, 60% {
         transform: translate3d(4px, 0, 0);
     }
@@ -557,7 +540,7 @@ body, button {
 
 /* Login text input styles. */
 .loginField {
-    font-family: 'Avenir Book';
+    font-family: 'Noto Sans';
     background: none;
     border-width: 1.5px 0px 0px 0px;
     border-style: solid;
@@ -594,19 +577,6 @@ body, button {
     margin-bottom: 13px;
 }
 
-/* Container which contains the forgot and remember options. */
-#loginOptions {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-/* Remember option text. */
-#loginRememberText {
-    padding-right: 10px;
-    transition: 0.25s ease;
-}
-
 /* Login button styles. */
 #loginButton {
     background: none;
@@ -614,7 +584,6 @@ body, button {
     letter-spacing: 2px;
     border: none;
     padding: 15px 5px;
-    margin: 10px 0px;
     cursor: pointer;
     position: relative;
     right: -20px;
@@ -760,7 +729,6 @@ body, button {
     border-bottom-color: rgba(255, 255, 255, 0.50);
     animation: single2 4s infinite linear;
 }
-
 @keyframes single2 {
     0% {
         transform: rotate(0deg);
@@ -1052,7 +1020,7 @@ body, button {
 }
 .settingsTabHeaderText {
     font-size: 20px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
 }
 .settingsTabHeaderDesc {
     font-size: 12px;
@@ -1070,7 +1038,7 @@ body, button {
     background: rgba(0, 0, 0, 0.25);
     border-radius: 3px;
     border: 1px solid rgba(126, 126, 126, 0.57);
-    font-family: 'Avenir Book';
+    font-family: 'Noto Sans';
     transition: 0.25s ease;
 }
 #settingsContainer input[type=number]:focus,
@@ -1099,7 +1067,7 @@ body, button {
 }
 .settingsFieldTitle {
     font-size: 14px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     color: rgba(255, 255, 255, 0.95);
 }
 .settingsFieldDesc {
@@ -1262,7 +1230,7 @@ input:checked + .toggleSwitchSlider:before {
     width: 89%;
 }
 .settingsFileSelDesc strong {
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
 }
 
 /* * *
@@ -1350,7 +1318,7 @@ input:checked + .toggleSwitchSlider:before {
     font-size: 12px;
     color: grey;
     font-weight: bold;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
 }
 .settingsAuthAccountDetailValue {
     font-size: 14px;
@@ -1372,7 +1340,7 @@ input:checked + .toggleSwitchSlider:before {
     border: none;
     white-space: nowrap;
     background: none;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     outline: none;
     transition: 0.25s ease;
 }
@@ -1397,7 +1365,7 @@ input:checked + .toggleSwitchSlider:before {
     background: none;
     font-size: 12px;
     border-radius: 3px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     transition: 0.25s ease;
     cursor: pointer;
     outline: none;
@@ -1481,7 +1449,7 @@ input:checked + .toggleSwitchSlider:before {
     background: none;
     font-size: 12px;
     border-radius: 3px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     transition: 0.25s ease;
     cursor: pointer;
     outline: none;
@@ -2005,7 +1973,7 @@ input:checked + .toggleSwitchSlider:before {
 /* Release type text. */
 #settingsAboutCurrentVersionTitle {
     font-size: 12px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     color: #23aa23;
     font-weight: bold;
 }
@@ -2094,7 +2062,7 @@ input:checked + .toggleSwitchSlider:before {
     background-color: rgba(255, 255, 255, 0.25);
     color: white;
     border-radius: 3px;
-    font-family: 'Avenir Book';
+    font-family: 'Noto Sans';
 }
 .settingsChangelogText li+li {
     margin-top: .25em;
@@ -2204,7 +2172,7 @@ input:checked + .toggleSwitchSlider:before {
 /* Release type text. */
 #settingsUpdateVersionTitle {
     font-size: 12px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     color: #23aa23;
     font-weight: bold;
 }
@@ -2288,50 +2256,31 @@ input:checked + .toggleSwitchSlider:before {
     height: 100%;
 }
 
+#landingContainer > #center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Lower content container. */
 #landingContainer > #lower {
     height: 23%;
     display: flex;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
-#landingContainer > #lower > #left {
+
+#landingContainer > #lower {
     position: relative;
     transition: top 2s ease;
     top: 0px;
     height: 100%;
-    width: 33%;
-    display: inline-flex;
+    width: 100%;
+    display: flex;
     justify-content: center;
-}
-#landingContainer > #lower > #left #content {
-    position: relative;
-    top: 25px;
-    display: inline-flex;
-    line-height: 24px;
-    left: 50px;
-}
-#landingContainer > #lower > #center {
-    position: relative;
-    transition: top 2s ease;
-    top: 0px;
-    height: 100%;
-    width: 34%;
-    display: inline-flex;
-    justify-content: center;
-}
-#landingContainer > #lower > #center #content {
-    position: relative;
-    z-index: 500;
-    transition: top 2s ease;
-    top: 10px;
-}
-#landingContainer > #lower > #right {
-    position: relative;
-    transition: top 2s ease;
-    top: 0px;
-    height: 100%;
-    width: 33%;
-    display: inline-flex;
 }
 
 /*******************************************************************************
@@ -2403,7 +2352,7 @@ input:checked + .toggleSwitchSlider:before {
 #newsArticleTitle {
     font-size: 18px;
     font-weight: bold;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     color: white;
     text-decoration: none;
     transition: 0.25s ease;
@@ -2720,7 +2669,7 @@ input:checked + .toggleSwitchSlider:before {
     z-index: 1;
     top: 115%;
     left: -17.5px;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-size: 12px;
     transition: visibility 0s linear 0.25s, opacity 0.25s ease;
 }
@@ -2804,7 +2753,6 @@ input:checked + .toggleSwitchSlider:before {
     align-items: center;
     transition: 0.25s ease;
     font-weight: bold;
-    letter-spacing: 2px;
     background-color: rgba(0, 0, 0, 0.35);
     -webkit-user-select: none;
     border: none;
@@ -3019,8 +2967,8 @@ input:checked + .toggleSwitchSlider:before {
 /* Span which displays the player count of the selected server. */
 #player_count {
     color: #949494;
-    font-size: 8px;
-    font-weight: 900;
+    font-size: 10px;
+    font-weight: 800;
     text-shadow: 0px 0px 20px #949494;
     margin-left: 10px;
 }
@@ -3052,7 +3000,7 @@ input:checked + .toggleSwitchSlider:before {
     border-radius: 4px;
     padding: 5px 10px;
     z-index: 1;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-size: 12px;
     transition: visibility 0s linear 0.25s, opacity 0.25s ease;
     bottom: calc(100% + 15px);
@@ -3203,40 +3151,13 @@ input:checked + .toggleSwitchSlider:before {
     display: inline-flex;
 }
 
-/* The launch button. */
-#launch_button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-shadow: 0px 0px 0px #bebcbb;
-    font-size: 20px;
-    padding: 0px;
-    transition: 0.25s ease;
-    outline: none;
-}
-#launch_button:hover,
-#launch_button:focus {
-    text-shadow: 0px 0px 20px #fff, 0px 0px 20px #fff;
-}
-#launch_button:active {
-    color: #c7c7c7;
-    text-shadow: 0px 0px 20px #c7c7c7, 0px 0px 20px #c7c7c7;
-}
-#launch_button:disabled {
-    color: #c7c7c7;
-    cursor: default;
-    pointer-events: none;
-}
-
 /* Launch details main container, hidden until launch processing begins. */
 #launch_details {
     position: relative;
     top: 25px;
     display: none;
 }
- 
+
 /* Left side of launch details container, displays percentage and a divider. */
 #launch_details_left {
     display: flex;
@@ -3367,7 +3288,7 @@ input:checked + .toggleSwitchSlider:before {
 
 /* Overlay title styles. */
 #overlayTitle {
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-size: 20px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -3393,7 +3314,7 @@ input:checked + .toggleSwitchSlider:before {
     background: none;
     border: 1px solid #ffffff;
     color: white;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
     border-radius: 2px;
     padding: 0px 8.1px;
@@ -3445,7 +3366,7 @@ input:checked + .toggleSwitchSlider:before {
 /* Server selection header. */
 #serverSelectHeader,
 #accountSelectHeader {
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
@@ -3667,7 +3588,7 @@ input:checked + .toggleSwitchSlider:before {
     background: none;
     border: 1px solid #ffffff;
     color: white;
-    font-family: 'Avenir Medium';
+    font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
     border-radius: 2px;
     padding: 0px 8.1px;

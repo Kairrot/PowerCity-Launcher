@@ -1,0 +1,76 @@
+.input-label {
+    position: relative;
+    margin-bottom: 20px;
+}
+.input-label input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+    color: white;
+}
+.input-label .label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.5s;
+}
+.input-label input:focus ~ .label, .input-label input:valid ~ .label {
+    top: -20px;
+    left: 0;
+    font-size: 12px;
+}
+
+
+
+.play {
+    --c: goldenrod;
+    color: var(--c);
+    font-size: 16px;
+    border: 0.3em solid var(--c);
+    border-radius: 0.5em;
+    width: 12em;
+    height: 3em;
+    letter-spacing: 0.1em;
+    text-align: center;
+    line-height: 1.5em;
+    position: relative;
+    font-weight: 800;
+    z-index: 1;
+    transition: .5s;
+    margin: 1em;
+    overflow: hidden;
+    background: transparent;
+}
+
+.play span {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    background: var(--c);
+    transform: translateY(150%);
+    left: calc((var(--n) - 1) * 25%);
+    border-radius: 50%;
+    transition: .5s;
+    transition-delay: calc((var(--n) - 1) * 0.1s);
+    z-index: -100;
+}
+
+.play:hover {
+    color: black;
+}
+
+.play:hover span {
+    transform: translateY(0) scale(2);
+}
+
+.play span:nth-child(1) {--n: 1}
+.play span:nth-child(2) {--n: 2}
+.play span:nth-child(3) {--n: 3}
+.play span:nth-child(4) {--n: 4}
