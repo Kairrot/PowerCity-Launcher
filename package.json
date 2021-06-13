@@ -1,6 +1,6 @@
 {
   "name": "powercitylauncher",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "productName": "PowerCity Launcher",
   "description": "Modded Minecraft Launcher",
   "author": "Kairrot (https://github.com/Kairrot/)",
@@ -42,6 +42,7 @@
     "request": "^2.88.2",
     "semver": "^7.3.5",
     "tar-fs": "^2.1.1",
+    "uuid": "^8.3.2",
     "winreg": "^1.2.4"
   },
   "devDependencies": {

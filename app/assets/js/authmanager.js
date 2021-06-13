@@ -15,6 +15,7 @@ const Mojang        = require('./mojang')
 const Microsoft     = require('./microsoft')
 const logger        = LoggerUtil('%c[AuthManager]', 'color: #a02d2a; font-weight: bold')
 const loggerSuccess = LoggerUtil('%c[AuthManager]', 'color: #209b07; font-weight: bold')
+const uuid          = require('uuid');
 
 async function validateSelectedMojang() {
     const current = ConfigManager.getSelectedAccount()
@@ -71,6 +72,26 @@ async function validateSelectedMicrosoft() {
     }
 }
 
+async function validateSelectedPowerCity() {
+    const current = ConfigManager.getSelectedAccount()
+
+    const user = await (await fetch('http://185.157.246.55/api/user', {
+        headers: { token: current.token }
+    })).json();
+
+    if(user.status) {
+        if(user.status === 400) {
+            return false;
+        }
+    }
+
+    if(current.username !== user.username) {
+        ConfigManager.updateCrackAccount(current.uuid, current.token, user.username);
+        ConfigManager.save();
+    }
+    return true;
+}
+
 // Exports
 // Functions
 
@@ -102,6 +123,23 @@ exports.addAccount = async function(username, password){
     }
 }
 
+exports.addCrackAccount = async function(username,password) {
+    const token = await ((await fetch('http://185.157.246.55/api/user', {
+        headers: {email: username, password,}
+    })).json());
+
+    if(token.status === 400) return Promise.reject(token.message);
+
+    const user = await ((await fetch('http://185.157.246.55/api/user', {
+        headers: {token: token.token,}
+    })).json());
+
+    const ret = ConfigManager.addCrackAccount(uuid.v4() ,token.token, user.username);
+    ConfigManager.save();
+
+    return Promise.resolve(ret);
+}
+
 /**
  * Remove an account. This will invalidate the access token associated
  * with the account and then remove it from the database.
@@ -112,7 +150,7 @@ exports.addAccount = async function(username, password){
 exports.removeAccount = async function(uuid){
     try {
         const authAcc = ConfigManager.getAuthAccount(uuid)
-        if(authAcc.type === 'microsoft'){
+        if(authAcc.type === 'microsoft' || authAcc.type === 'powercity'){
             ConfigManager.removeAuthAccount(uuid)
             ConfigManager.save()
             return Promise.resolve()
@@ -144,9 +182,12 @@ exports.validateSelected = async function(){
             if (ConfigManager.getSelectedAccount().type === 'microsoft') {
                 const validate = await validateSelectedMicrosoft()
                 return validate
-            } else {
+            } else if(ConfigManager.getSelectedAccount().type === 'mojang') {
                 const validate = await validateSelectedMojang()
                 return validate
+            } else if(ConfigManager.getSelectedAccount().type === 'powercity') {
+                const validate = await validateSelectedPowerCity();
+                return validate;
             }
         } catch (error) {
             return Promise.reject(error)

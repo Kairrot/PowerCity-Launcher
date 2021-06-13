@@ -1310,7 +1310,7 @@ input:checked + .toggleSwitchSlider:before {
     width: 100%;
 }
 .settingsAuthAccountDetails > *:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 /* Account detail element styles. */

@@ -430,10 +430,10 @@ function bindAuthAccountLogOut() {
             if (Object.keys(ConfigManager.getAuthAccounts()).length === 1) {
                 isLastAccount = true
                 setOverlayContent(
-                    'Warning<br>This is Your Last Account',
-                    'In order to use the launcher you must be logged into at least one account. You will need to login again after.<br><br>Are you sure you want to log out?',
-                    'I\'m Sure',
-                    'Cancel'
+                    'Attention<br>C\'est votre dernier compte',
+                    'Vous devez avoir au moins un compte pour jouer. Vous devez vous connecter après la déconnection<br><br>Etes-vous sur de vous déconnecter ?',
+                    'Je suis sur',
+                    'Annuler'
                 )
                 setOverlayHandler(() => {
                     processLogOut(val, isLastAccount)
@@ -475,6 +475,7 @@ function processLogOut(val, isLastAccount, skip = false) {
 
     if (!skip) {
         const account = ConfigManager.getAuthAccount(uuid)
+        console.log(account)
         if (account.type === 'microsoft') {
             toggleOverlay(true, false, 'msOverlay')
             ipcRenderer.send('openMSALogoutWindow', 'open')
@@ -539,13 +540,17 @@ function populateAuthAccounts() {
         const acc = authAccounts[val]
         authAccountStr += `<div class="settingsAuthAccount" uuid="${acc.uuid}">
             <div class="settingsAuthAccountLeft">
-                <img class="settingsAuthAccountImage" alt="${acc.displayName}" src="https://crafatar.com/renders/body/${acc.uuid}?scale=3&default=MHF_Steve&overlay">
+                <img class="settingsAuthAccountImage" alt="${acc.displayName}" src="${(acc.type === 'powercity') ? './assets/images/steve.png' : 'https://crafatar.com/renders/body/' + acc.uuid + '?scale=3&default=MHF_Steve&overlay'}">
             </div>
             <div class="settingsAuthAccountRight">
                 <div class="settingsAuthAccountDetails">
                     <div class="settingsAuthAccountDetailPane">
                         <div class="settingsAuthAccountDetailTitle">Pseudo</div>
                         <div class="settingsAuthAccountDetailValue">${acc.displayName}</div>
+                    </div>
+                    <div class="settingsAuthAccountDetailPane">
+                        <div class="settingsAuthAccountDetailTitle">Type</div>
+                        <div class="settingsAuthAccountDetailValue">${(acc.type === 'mojang') ? 'Mojang' : (acc.type === 'microsoft') ? 'Microsoft' : 'PowerCity'}</div>
                     </div>
                     <div class="settingsAuthAccountDetailPane">
                         <div class="settingsAuthAccountDetailTitle">UUID</div>
@@ -555,7 +560,7 @@ function populateAuthAccounts() {
                 <div class="settingsAuthAccountActions">
                     <button class="settingsAuthAccountSelect" ${selectedUUID === acc.uuid ? 'selected>Compte sélectioner &#10004;' : '>Sélectionner ce compte'}</button>
                     <div class="settingsAuthAccountWrapper">
-                        <button class="settingsAuthAccountLogOut">Log Out</button>
+                        <button class="settingsAuthAccountLogOut">Se déconnecter</button>
                     </div>
                 </div>
             </div>

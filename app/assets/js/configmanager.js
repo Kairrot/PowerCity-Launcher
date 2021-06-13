@@ -407,6 +407,13 @@ exports.updateMicrosoftAuthAccount = function(uuid, accessToken, msAccessToken, 
     return config.authenticationDatabase[uuid]
 }
 
+exports.updateCrackAccount = function (uuid, token, username) {
+    config.authenticationDatabase[uuid].token = token;
+    config.authenticationDatabase[uuid].username = username;
+    config.authenticationDatabase[uuid].displayName = username;
+    return config.authenticationDatabase[uuid];
+}
+
 /**
  * Adds an authenticated mojang account to the database to be stored.
  * 
@@ -427,6 +434,16 @@ exports.addAuthAccount = function(uuid, accessToken, username, displayName){
         type: 'mojang'
     }
     return config.authenticationDatabase[uuid]
+}
+
+exports.addCrackAccount = function(uuid, token, username) {
+    config.selectedAccount = uuid;
+    config.authenticationDatabase[uuid] = {
+        token, username, uuid,
+        displayName: username,
+        type: 'powercity'
+    }
+    return config.authenticationDatabase[uuid];
 }
 
 /**

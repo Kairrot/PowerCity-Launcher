@@ -157,6 +157,18 @@ function formDisabled(v){
 function resolveError(err){
     // Mojang Response => err.cause | err.error | err.errorMessage
     // Node error => err.code | err.message
+    if(err === 'NOT_EXIST') {
+        return {
+            title: 'Le compte n\'existe pas',
+            desc: 'Le compte demander n\'existe pas veuillez ressayer.'
+        }
+    } else if(err === 'NOT_VALID_EMAIL') {
+        return {
+            title: 'Email non vérifier',
+            desc: 'Veuillez vérifier votre email pour vous connecter.'
+        }
+    }
+
     if(err.cause != null && err.cause === 'UserMigratedException') {
         return {
             title: Lang.queryJS('login.error.userMigrated.title'),
@@ -244,6 +256,31 @@ loginCancelButton.onclick = (e) => {
     })
 }
 
+function successConnect(value) {
+    updateSelectedAccount(value)
+    loginButton.innerHTML = loginButton.innerHTML.replace(Lang.queryJS('login.loggingIn'), Lang.queryJS('login.success'))
+    $('.circle-loader').toggleClass('load-complete')
+    $('.checkmark').toggle()
+    setTimeout(() => {
+        switchView(VIEWS.login, loginViewOnSuccess, 500, 500, () => {
+            // Temporary workaround
+            if(loginViewOnSuccess === VIEWS.settings){
+                prepareSettings()
+            }
+            loginViewOnSuccess = VIEWS.landing // Reset this for good measure.
+            loginCancelEnabled(false) // Reset this for good measure.
+            loginViewCancelHandler = null // Reset this for good measure.
+            loginUsername.value = ''
+            loginPassword.value = ''
+            $('.circle-loader').toggleClass('load-complete')
+            $('.checkmark').toggle()
+            loginLoading(false)
+            loginButton.innerHTML = loginButton.innerHTML.replace(Lang.queryJS('login.success'), Lang.queryJS('login.login'))
+            formDisabled(false)
+        })
+    }, 1000)
+}
+
 // Disable default form behavior.
 loginForm.onsubmit = () => { return false }
 
@@ -256,38 +293,21 @@ loginButton.addEventListener('click', () => {
     loginLoading(true)
 
     AuthManager.addAccount(loginUsername.value, loginPassword.value).then((value) => {
-        updateSelectedAccount(value)
-        loginButton.innerHTML = loginButton.innerHTML.replace(Lang.queryJS('login.loggingIn'), Lang.queryJS('login.success'))
-        $('.circle-loader').toggleClass('load-complete')
-        $('.checkmark').toggle()
-        setTimeout(() => {
-            switchView(VIEWS.login, loginViewOnSuccess, 500, 500, () => {
-                // Temporary workaround
-                if(loginViewOnSuccess === VIEWS.settings){
-                    prepareSettings()
-                }
-                loginViewOnSuccess = VIEWS.landing // Reset this for good measure.
-                loginCancelEnabled(false) // Reset this for good measure.
-                loginViewCancelHandler = null // Reset this for good measure.
-                loginUsername.value = ''
-                loginPassword.value = ''
-                $('.circle-loader').toggleClass('load-complete')
-                $('.checkmark').toggle()
-                loginLoading(false)
-                loginButton.innerHTML = loginButton.innerHTML.replace(Lang.queryJS('login.success'), Lang.queryJS('login.login'))
-                formDisabled(false)
-            })
-        }, 1000)
+        successConnect(value)
     }).catch((err) => {
-        loginLoading(false)
-        const errF = resolveError(err)
-        setOverlayContent(errF.title, errF.desc, Lang.queryJS('login.tryAgain'))
-        setOverlayHandler(() => {
-            formDisabled(false)
-            toggleOverlay(false)
+        AuthManager.addCrackAccount(loginUsername.value, loginPassword.value).then((value) => {
+            successConnect(value)
+        }).catch((err) => {
+            loginLoading(false)
+            const errF = resolveError(err)
+            setOverlayContent(errF.title, errF.desc, Lang.queryJS('login.tryAgain'))
+            setOverlayHandler(() => {
+                formDisabled(false)
+                toggleOverlay(false)
+            })
+            toggleOverlay(true)
+            loggerLogin.log('Error while logging in.', err)
         })
-        toggleOverlay(true)
-        loggerLogin.log('Error while logging in.', err)
     })
 
 })
